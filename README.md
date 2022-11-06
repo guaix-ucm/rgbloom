@@ -10,15 +10,19 @@ This code is an updated version of [rgblues](https://github.com/guaix-ucm/rgblue
 which provides RGB magnitudes from *Gaia* EDR3 photometric data, as
 explained in [Cardiel et al. (2021b)](#2).
 
-The RGB magnitudes provided by `rgbloom` are more reliable because 
+The RGB magnitudes provided by [Carrasco et al. (2022)](#3) 
+are more reliable because 
 they have been directly computed from the source spectrum without
 the need to employ any approximate calibration, nor introducing
 constraints on the source colour or extinction. In addition, the number
 of sources with RGB estimates has increased from ~15 million to
 ~200 million objects (the 200M sample). Anyway, since the sky 
 coverage of the 200M sample is still not very good at some 
-high Galactic latitudes, `rgblues` may still be useful
-for those users requiring calibrated RGB sources at those sky regions.
+high Galactic latitudes, `rgbloom` also provides RGB estimates
+for sources that do not belong to the 200M sample making use of the
+polynomial calibrations of [Cardiel et al. (2021b)](#2), which
+may still be useful for those users requiring calibrated RGB 
+sources at those sky regions.
 
 The code `rgbloom` performs a cone search defined by coordinates 
 right ascension and declination on the sky and a search radius.
@@ -53,7 +57,7 @@ $ . venv_rgb/bin/activate
 
 Just execute it from the command line:
 
-```buildoutcfg
+```bash
 (venv_rgb) $ rgbloom 56.66 24.10 1.0 12
 ```
 
@@ -77,15 +81,15 @@ The script executes the following steps:
 
 - Step 2: initial RGB magnitude estimation using the polynomial 
   transformations given in Eqs. (2)-(4) of [Cardiel et al. (2021b)](#2).
-  These values are only provided for objects that do not belong to the
-  200M sample.
+  These values are only provided for objects in the field of view 
+  that do not belong to the 200M sample.
   
-- Step 3: downloading of the RGB magnitud estimates corresponding to 
+- Step 3: downloading of the RGB magnitude estimates corresponding to 
   the 200M sample objects within the HEALPIx level-8 tables enclosing 
   the region of the sky defined in the initial cone search.
   
-- Step 4: cross-matching between DR3 and 200M sample to identify objects
-  with RGB estimates from the low resolution *Gaia* DR3 spectra.
+- Step 4: cross-matching between the DR3 and 200M subsamples to identify objects
+  with RGB estimates derived from the low resolution *Gaia* DR3 spectra.
   
 - Step 5: generation of the output files. Two files (in CSV format) are 
   generated: 
@@ -144,7 +148,7 @@ name `rgbloom`. This can be easily modified using the optional argument
 Some auxiliary optional arguments are also available. See description 
 invoking the script help:
 
-```buildoutcfg
+```bash
 $ rgbloom --help
 
 ...
