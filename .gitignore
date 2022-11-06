@@ -1,0 +1,16 @@
+# Particular files
+rgbloom.pdf
+rgbloom*csv
+*~
+
+# PyCharm related files
+.idea
+
+# Auxiliary directories
+build
+dist
+rgbloom.egg-info
+rgbloom/__pycache__/
+rgbloom/core/__pycache__/
+rgbloom/gui/__pycache__/
+rgbloom/tests/__pycache__/
