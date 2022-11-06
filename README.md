@@ -43,7 +43,11 @@ $ . venv_rgb/bin/activate
 
 ### Installing the package
 
-TBD
+```bash
+(venv_rgb) $ pip install git+https://github.com/guaix-ucm/rgbloom.git@main#egg=rgbloom
+```
+
+
 
 ## Executing the program
 
