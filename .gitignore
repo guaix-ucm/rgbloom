@@ -14,3 +14,6 @@ rgbloom/__pycache__/
 rgbloom/core/__pycache__/
 rgbloom/gui/__pycache__/
 rgbloom/tests/__pycache__/
+
+# tox related files
+.tox
