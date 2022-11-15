@@ -20,6 +20,8 @@ import numpy as np
 from .style import mpl_style
 OUTTYPES_COLOR = {'200m': 'red', 'no200m': 'black', 'var': 'blue'}
 
+matplotlib.use('pdf')
+
 
 def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, symbsize, brightlimit,
           nonumbers, nocolor, basename, version, verbose):
