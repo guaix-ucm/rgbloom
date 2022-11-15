@@ -80,7 +80,7 @@ def exec_rgbloom(args):
     # compute md5 hash from terminal using: $ md5sum <filename>
     fauxcsv = pooch.retrieve(
         f"http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/{REFERENCE_HEALPIX8}",
-        known_hash="md5:597e0c1cda9f986bdd07ca2eb0f64c71"
+        known_hash="md5:f2b5c0e35deb3cb3d3d93b8e7cae401b"
     )
     if args.verbose:
         print(f'- Required file: {fauxcsv}')

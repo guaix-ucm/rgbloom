@@ -67,7 +67,7 @@ def step3(ra_center, dec_center, search_radius, reference_healpix8_df, verbose):
     for subset, md5 in zip(subset_list, md5_list):
         # retrieve file containing the RGB predictions for objects
         # within the 200M sample in a particular region of the sky
-        fname = f'{subdir}/sortida_XpContinuousMeanSpectrum_{subset}_RGB_NOVARIABLES.csv.gz'
+        fname = f'{subdir}/sortida_XpContinuousMeanSpectrum_{subset}_RGB_NOVARIABLES_fixed.csv.gz'
         fauxcsv = pooch.retrieve(
             f"http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/{fname}",
             known_hash=f"md5:{md5}"
