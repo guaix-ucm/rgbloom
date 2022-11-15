@@ -13,7 +13,6 @@ Test generation of pleiades cone search used in the paper
 import pooch
 
 from rgbloom.__main__ import exec_rgbloom
-from rgbloom.core.step7 import OUTTYPES
 
 
 class Args:
@@ -27,23 +26,20 @@ class Args:
     nonumbers = False
     noplot = True            # do not generate PDF file
     nocolor = False
-    starhorse_block = 0
     verbose = False
-    debug = False
 
 
 auxhash = {
-    'edr3': "md5:5b443fbc2863ff8c9c10bfec791acfb2",
-    '15m': "md5:34a416e7e25235d50ba609d2e94e8a49",
-    'var': "md5:81fde79fabb87cf0941c875b6e23c03d"
+    '200m': "md5:5118642314821e677cdb2bf06f0f0410",
+    'no200m': "md5:b1d6ec03a90824facd1e117a608cd51d"
 }
 
 fref = dict()
 print('Using reference files:')
-for ftype in OUTTYPES:
+for ftype in auxhash:
     fname = f'{Args.basename}_{ftype}.csv'
     ftmp = pooch.retrieve(
-        f"http://nartex.fis.ucm.es/~ncl/rgbphot/gaia/{fname}",
+        f"http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/{fname}",
         known_hash=auxhash[ftype]
     )
     fref[ftype] = ftmp
@@ -52,7 +48,7 @@ for ftype in OUTTYPES:
 
 def test_pleiades_simple():
     exec_rgbloom(Args)
-    for ftype in OUTTYPES:
+    for ftype in auxhash:
         fname = f'{Args.basename}_{ftype}.csv'
         print(f'Checking {fname}')
         with open(fname, 'r') as f:
