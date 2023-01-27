@@ -2,7 +2,7 @@
 
 This Python script retrieves RGB magnitudes computed from low resolution
 spectra published in *Gaia* DR3, following the work described in 
-[Carrasco et al. (2022)](#3).
+[Carrasco et al. (2023)](#3).
 These magnitudes are given in the standard system defined by
 [Cardiel et al. (2021a)](#1).
 
@@ -10,7 +10,7 @@ This code is an updated version of [rgblues](https://github.com/guaix-ucm/rgblue
 which provides RGB magnitudes from *Gaia* EDR3 photometric data, as
 explained in [Cardiel et al. (2021b)](#2).
 
-The RGB magnitudes provided by [Carrasco et al. (2022)](#3) 
+The RGB magnitudes provided by [Carrasco et al. (2023)](#3) 
 are more reliable because 
 they have been directly computed from the source spectrum without
 the need to employ any approximate calibration, nor introducing
@@ -95,7 +95,7 @@ The script executes the following steps:
   generated: 
 
     - `rgbloom_200m.csv`: objects belonging to the 200M sample 
-      with RGB magnitudes computed as described in [Carrasco et al. (2022)](#3).
+      with RGB magnitudes computed as described in [Carrasco et al. (2023)](#3).
       This CSV file provides the following columns:
       - `number`: consecutive number of the star in the CSV file (used in the final plot)
       - `source_id`: identification in *Gaia* DR3
@@ -177,7 +177,7 @@ optional arguments:
 If you find this Python package useful, 
 please cite [Cardiel et al. (2021a)](#3)
 (to quote the use of the standard RGB system)
-and [Carrasco et al. (2022)](#3) (where the computation of the RGB magnitudes
+and [Carrasco et al. (2023)](#3) (where the computation of the RGB magnitudes
 from the low resolution spectra published in *Gaia* DR3 is explained).
 
 ## Related information
@@ -193,5 +193,4 @@ MNRAS, https://ui.adsabs.harvard.edu/abs/2021MNRAS.504.3730C/abstract
 <a id="2">Cardiel et al. (2021b)</a>, 
 MNRAS, https://ui.adsabs.harvard.edu/abs/2021MNRAS.507..318C/abstract
 
-<a id="3">Carrasco et al. (2022)</a>, 
-A&A, in preparation
+<a id="3">Carrasco et al. (2023)</a>, in preparation
