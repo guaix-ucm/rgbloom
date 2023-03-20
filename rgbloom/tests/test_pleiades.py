@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2022 Universidad Complutense de Madrid
+# Copyright 2022-2023 Universidad Complutense de Madrid
 #
 # SPDX-License-Identifier: GPL-3.0+
 # License-Filename: LICENSE.txt
@@ -29,8 +29,11 @@ class Args:
     verbose = False
 
 
+# compute md5 hash from terminal using:
+# linux $ md5sum <filename>
+# macOS $ md5 <filename>
 auxhash = {
-    '200m': "md5:5118642314821e677cdb2bf06f0f0410",
+    '200m': "md5:26d8cab6b6f6b15af2d108bc14b0cca7",
     'no200m': "md5:b1d6ec03a90824facd1e117a608cd51d"
 }
 

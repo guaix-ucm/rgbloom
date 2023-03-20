@@ -77,7 +77,9 @@ def exec_rgbloom(args):
     print(f'\n        Welcome to rgbloom version {version}')
     print(f'        ==============================\n')
 
-    # compute md5 hash from terminal using: $ md5sum <filename>
+    # compute md5 hash from terminal using:
+    # linux $ md5sum <filename>
+    # macOS $ md5 <filename>
     fauxcsv = pooch.retrieve(
         f"http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/{REFERENCE_HEALPIX8}",
         known_hash="md5:6a42bb1f8f5274f9ec49fb2e5cfe5230"
