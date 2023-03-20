@@ -73,7 +73,39 @@ that is displayed in the terminal output (you do not have to worry
 about its location unless you need to delete them in order to
 recover disk space).
 
-The script executes the following steps:
+The execution of this example should led to the following output in the
+terminal (except for the absolute path where the auxiliary downloaded files 
+are stored):
+
+```
+        Welcome to rgbloom version 1.1
+        ==============================
+
+Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/reference_healpix8.csv' to file '/Users/cardiel/Library/Caches/pooch/635cd722cf61b23bd8eee20635e4d580-reference_healpix8.csv'.
+<STEP1> Starting cone search in Gaia DR3... (please wait)
+  INFO: Query finished. [astroquery.utils.tap.core]
+        --> 310 objects found
+        --> 23 objects classified as VARIABLE
+<STEP2> Estimating RGB magnitudes in DR3 query using C21 polynomials OK!
+<STEP3> Retrieving objects from the 200M sample in the enclosing HEALPIx level-8 tables
+Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/RGBsynthetic_NOVARIABLES/sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_refixed.csv.gz' to file '/Users/cardiel/Library/Caches/pooch/d73f5ac4ea836dc66815ee94c49ad483-sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_refixed.csv.gz'.
+        * Required file: /Users/cardiel/Library/Caches/pooch/d73f5ac4ea836dc66815ee94c49ad483-sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_refixed.csv.gz
+          md5:b1d6f4fbb467afc660431a94595f3e2e
+        --> Number of objects: 100553
+        --> Total number of objects: 100553
+<STEP4> Cross-matching DR3 with 200M sample
+        --> Number of objects in the 200M subsample............: 100553
+        --> Number of objects in DR3 query.....................: 310
+        --> Number of DR3 objects within the 200M sample.......: 248
+        --> Number of DR3 objects no present in the 200M sample: 62
+<STEP5> Saving output CSV files
+        --> file rgbloom_200m.csv saved
+        --> file rgbloom_no200m.csv saved
+<STEP6> Generating PDF plot
+End of program
+```
+
+The `rgbloom` script executes the following steps:
 
 - Step 1: cone search in *Gaia* DR3, gathering the following parameters: 
   `source_id`, `ra`, `dec`, `phot_g_mean_mag`, `phot_bp_mean_mag`,
@@ -134,7 +166,7 @@ The script executes the following steps:
 - Step 6: generation of a finding chart plot (in PDF format): `rgbloom.pdf`. 
   The execution of the previous example generates a cone search around 
   the [Pleiades](https://en.wikipedia.org/wiki/Pleiades) star cluster:
-  ![Pleiades plot](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v2.png)
+  ![Pleiades plot](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v3.png)
   The stars in this plot are color coded based on the *Gaia* G_BP - G_RP 
   colour. Stars brighter than a pre-defined threshold are displayed 
   with big star symbols. To facilitate the identification of each star, the
