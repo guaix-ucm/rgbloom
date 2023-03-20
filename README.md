@@ -107,6 +107,13 @@ The script executes the following steps:
       - `errRGB_B`: uncertainty in the blue RGB magnitude estimate
       - `errRGB_G`: uncertainty in the green RGB magnitude estimate
       - `errRGB_R`: uncertainty in the red RGB magnitude estimate
+      - `flag`: type of source, according to the classification provided by
+        *Gaia* DR3 (see [description of
+        `GAIA_SOURCE`](https://gea.esac.esa.int/archive/documentation/GDR3/Gaia_archive/chap_datamodel/sec_dm_main_source_catalogue/ssec_dm_gaia_source.html) table for details):
+        - `3`: object flagged as `IN_GALAXY_CANDIDATES`
+        - `2`: object flagged as `IN_QSO_CANDIDATES`
+        - `1`: object flagged as `NON_SINGLE_STAR`
+        - `0`: none of the above
 
     - `rgbloom_no200m.csv`: objects not included in the 200M sample, which
       RGB magnitudes are estimated using the approximate polynomial

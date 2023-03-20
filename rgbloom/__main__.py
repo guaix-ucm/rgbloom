@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2022 Universidad Complutense de Madrid
+# Copyright 2022-2023 Universidad Complutense de Madrid
 #
 # SPDX-License-Identifier: GPL-3.0+
 # License-Filename: LICENSE.txt
@@ -80,7 +80,7 @@ def exec_rgbloom(args):
     # compute md5 hash from terminal using: $ md5sum <filename>
     fauxcsv = pooch.retrieve(
         f"http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/{REFERENCE_HEALPIX8}",
-        known_hash="md5:f2b5c0e35deb3cb3d3d93b8e7cae401b"
+        known_hash="md5:6a42bb1f8f5274f9ec49fb2e5cfe5230"
     )
     if args.verbose:
         print(f'- Required file: {fauxcsv}')

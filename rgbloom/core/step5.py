@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2022 Universidad Complutense de Madrid
+# Copyright 2022-2023 Universidad Complutense de Madrid
 #
 # SPDX-License-Identifier: GPL-3.0+
 # License-Filename: LICENSE.txt
@@ -36,7 +36,8 @@ def step5(r_dr3_200m, r_dr3_no200m, basename, verbose):
     outcolumns_list = [
         'source_id', 'ra', 'dec',
         'RGB_B', 'RGB_G', 'RGB_R',
-        'errRGB_B', 'errRGB_G', 'errRGB_R'
+        'errRGB_B', 'errRGB_G', 'errRGB_R',
+        'flag'
     ]
     # define column format with a dictionary
     outcolumns = {
@@ -48,7 +49,8 @@ def step5(r_dr3_200m, r_dr3_no200m, basename, verbose):
         'RGB_R': '8.4f',
         'errRGB_B': '8.4f',
         'errRGB_G': '8.4f',
-        'errRGB_R': '8.4f'
+        'errRGB_R': '8.4f',
+        'flag': '1d'
     }
     if set(outcolumns_list) != set(outcolumns.keys()):
         raise SystemExit('ERROR: check outcolumns_list and outcolumns')
