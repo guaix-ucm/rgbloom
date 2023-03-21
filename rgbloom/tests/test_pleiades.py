@@ -33,7 +33,7 @@ class Args:
 # linux $ md5sum <filename>
 # macOS $ md5 <filename>
 auxhash = {
-    '200m': "md5:26d8cab6b6f6b15af2d108bc14b0cca7",
+    '200m': "md5:476d8548fbc78f70c7c18806f079cb60",
     'no200m': "md5:b1d6ec03a90824facd1e117a608cd51d"
 }
 

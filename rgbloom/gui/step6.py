@@ -116,7 +116,11 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, symbsi
         if not nonumbers:
             for irow in range(len(r_table)):
                 text = r_table[irow]['number']
-                ax.text(x_pix[irow], y_pix[irow], text,
+                if r_table[irow]['qlflag'] == 1:
+                    bbox = dict(facecolor='none', edgecolor='gray', boxstyle='round, pad=0.2', lw=1, alpha=0.3)
+                else:
+                    bbox = None
+                ax.text(x_pix[irow], y_pix[irow], text, bbox=bbox,
                         color=OUTTYPES_COLOR[sample], fontsize='5',
                         horizontalalignment='left', verticalalignment='bottom')
 

@@ -82,7 +82,7 @@ def exec_rgbloom(args):
     # macOS $ md5 <filename>
     fauxcsv = pooch.retrieve(
         f"http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/{REFERENCE_HEALPIX8}",
-        known_hash="md5:6a42bb1f8f5274f9ec49fb2e5cfe5230"
+        known_hash="md5:65dbb1f2c5030a1bc987607fa5783736"
     )
     if args.verbose:
         print(f'- Required file: {fauxcsv}')
@@ -170,11 +170,11 @@ def main():
     parser.add_argument("g_limit", help="limiting Gaia G magnitude", type=float)
     parser.add_argument("--basename", help="file basename for output files", type=str, default="rgbloom")
     parser.add_argument("--brightlimit",
-                        help="stars brighter than this Gaia G limit are displayed with star symbols (default=8.0)",
+                        help="objects brighter than this Gaia G limit are displayed with star symbols (default=8.0)",
                         type=float, default=8.0)
     parser.add_argument("--symbsize", help="multiplying factor for symbol size (default=1.0)",
                         type=float, default=1.0)
-    parser.add_argument("--nonumbers", help="do not display star numbers in PDF chart", action="store_true")
+    parser.add_argument("--nonumbers", help="do not display object identification number in PDF chart", action="store_true")
     parser.add_argument("--noplot", help="skip PDF chart generation", action="store_true")
     parser.add_argument("--nocolor", help="do not use colors in PDF chart", action="store_true")
     parser.add_argument("--verbose", help="increase program verbosity", action="store_true")

@@ -37,7 +37,7 @@ def step5(r_dr3_200m, r_dr3_no200m, basename, verbose):
         'source_id', 'ra', 'dec',
         'RGB_B', 'RGB_G', 'RGB_R',
         'errRGB_B', 'errRGB_G', 'errRGB_R',
-        'flag'
+        'objtype', 'qlflag'
     ]
     # define column format with a dictionary
     outcolumns = {
@@ -50,7 +50,8 @@ def step5(r_dr3_200m, r_dr3_no200m, basename, verbose):
         'errRGB_B': '8.4f',
         'errRGB_G': '8.4f',
         'errRGB_R': '8.4f',
-        'flag': '1d'
+        'objtype': '1d',
+        'qlflag': '1d'
     }
     if set(outcolumns_list) != set(outcolumns.keys()):
         raise SystemExit('ERROR: check outcolumns_list and outcolumns')

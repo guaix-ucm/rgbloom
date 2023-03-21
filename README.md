@@ -78,7 +78,7 @@ terminal (except for the absolute path where the auxiliary downloaded files
 are stored):
 
 ```
-        Welcome to rgbloom version 1.1
+        Welcome to rgbloom version 1.2
         ==============================
 
 Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/reference_healpix8.csv' to file '/Users/cardiel/Library/Caches/pooch/635cd722cf61b23bd8eee20635e4d580-reference_healpix8.csv'.
@@ -88,9 +88,9 @@ Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/reference_h
         --> 23 objects classified as VARIABLE
 <STEP2> Estimating RGB magnitudes in DR3 query using C21 polynomials OK!
 <STEP3> Retrieving objects from the 200M sample in the enclosing HEALPIx level-8 tables
-Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/RGBsynthetic_NOVARIABLES/sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_refixed.csv.gz' to file '/Users/cardiel/Library/Caches/pooch/d73f5ac4ea836dc66815ee94c49ad483-sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_refixed.csv.gz'.
-        * Required file: /Users/cardiel/Library/Caches/pooch/d73f5ac4ea836dc66815ee94c49ad483-sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_refixed.csv.gz
-          md5:b1d6f4fbb467afc660431a94595f3e2e
+Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/RGBsynthetic_NOVARIABLES/sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_final.csv.gz' to file '/Users/cardiel/Library/Caches/pooch/2d94d5acfcb380d6dff1eaa207caa086-sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_final.csv.gz'.
+        * Required file: /Users/cardiel/Library/Caches/pooch/2d94d5acfcb380d6dff1eaa207caa086-sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_final.csv.gz
+          md5:f9cf7ed0f84eecda13ef6a408d291b96
         --> Number of objects: 100553
         --> Total number of objects: 100553
 <STEP4> Cross-matching DR3 with 200M sample
@@ -129,7 +129,7 @@ The `rgbloom` script executes the following steps:
     - `rgbloom_200m.csv`: objects belonging to the 200M sample 
       with RGB magnitudes computed as described in [Carrasco et al. (2023)](#3).
       This CSV file provides the following columns:
-      - `number`: consecutive number of the star in the CSV file (used in the final plot)
+      - `number`: consecutive number of the object in the CSV file (used in the final plot)
       - `source_id`: identification in *Gaia* DR3
       - `ra`: right ascension (from *Gaia* DR3)
       - `dec`: declination (from *Gaia* DR3)
@@ -139,19 +139,23 @@ The `rgbloom` script executes the following steps:
       - `errRGB_B`: uncertainty in the blue RGB magnitude estimate
       - `errRGB_G`: uncertainty in the green RGB magnitude estimate
       - `errRGB_R`: uncertainty in the red RGB magnitude estimate
-      - `flag`: type of source, according to the classification provided by
+      - `objtype`: type of source, according to the classification provided by
         *Gaia* DR3 (see [description of
         `GAIA_SOURCE`](https://gea.esac.esa.int/archive/documentation/GDR3/Gaia_archive/chap_datamodel/sec_dm_main_source_catalogue/ssec_dm_gaia_source.html) table for details):
         - `1`: object flagged as `NON_SINGLE_STAR`
         - `2`: object flagged as `IN_QSO_CANDIDATES`
         - `3`: object flagged as `IN_GALAXY_CANDIDATES`
         - `0`: none of the above
+      - `qlflag`: global quality flag:
+        - `0`: reliable source
+        - `1`: suspicious source (blending, contamination, non-stellar
+          identification)
 
     - `rgbloom_no200m.csv`: objects not included in the 200M sample, which
       RGB magnitudes are estimated using the approximate polynomial
       calibrations of [Cardiel et al. (2021b)](#2).
       This CSV file contains the following columns:
-      - `number`: consecutive number of the star in the CSV file (used in the final plot)
+      - `number`: consecutive number of the object in the CSV file (used in the final plot)
       - `source_id`: identification in *Gaia* DR3
       - `ra`: right ascension (from *Gaia* DR3)
       - `dec`: declination (from *Gaia* DR3)
@@ -166,17 +170,22 @@ The `rgbloom` script executes the following steps:
 - Step 6: generation of a finding chart plot (in PDF format): `rgbloom.pdf`. 
   The execution of the previous example generates a cone search around 
   the [Pleiades](https://en.wikipedia.org/wiki/Pleiades) star cluster:
-  ![Pleiades plot](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v3.png)
-  The stars in this plot are color coded based on the *Gaia* G_BP - G_RP 
+  ![Pleiades plot](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v4.png)
+  The objects in this plot are color coded based on the *Gaia* G_BP - G_RP 
   colour. Stars brighter than a pre-defined threshold are displayed 
-  with big star symbols. To facilitate the identification of each star, the
-  consecutive star number in the two files (`rgbloom_200m.csv` and
-  `rgbloom_no200m.csv`) is also displayed (in red,
-  and black, respectively). These numbers are not displayed when using the
-  parameter `--nonumbers` in the command line. In the case of objects that 
-  do not belong to the 200M sample, a blue square 
-  has been overplotted on the sources flagged as variable in *Gaia* DR3, 
-  and a grey diamond on objects outside the *Gaia* -0.5 < G_BP - G_RP < 2.0 colour interval.
+  with big star symbols. To facilitate the identification of each object, the
+  consecutive identification numbers in the two files `rgbloom_200m.csv` and
+  `rgbloom_no200m.csv` are also displayed, in red
+  and black, respectively. The identification numbers corresponding to the less
+  reliable sources in `rgbloom_20m.csv` (`qlflag=1`) appear inside a rectangle
+  with a light-gray border. Note that the identification numbers are not
+  displayed when using the parameter `--nonumbers` in the command line. 
+
+  In the case of objects that do not belong to the 200M sample (i.e., those in
+  `rgbloom_no200m.csv`), a blue square
+  has been overplotted on the sources flagged as variable in *Gaia* DR3, and a
+  grey diamond on objects outside the *Gaia* -0.5 < G_BP - G_RP < 2.0 colour
+  interval.
 
 Note that the three output archives (1 PDF and 2 CSV files) share the same root
 name `rgbloom`. This can be easily modified using the optional argument
@@ -203,9 +212,9 @@ optional arguments:
   -h, --help            show this help message and exit
   --basename BASENAME   file basename for output files
   --brightlimit BRIGHTLIMIT
-                        stars brighter than this Gaia G limit are displayed with star symbols (default=8.0)
+                        objects brighter than this Gaia G limit are displayed with star symbols (default=8.0)
   --symbsize SYMBSIZE   multiplying factor for symbol size (default=1.0)
-  --nonumbers           do not display star numbers in PDF chart
+  --nonumbers           do not display object identification number in PDF chart
   --noplot              skip PDF chart generation
   --nocolor             do not use colors in PDF chart
   --verbose             increase program verbosity
