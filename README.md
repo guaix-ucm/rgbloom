@@ -241,4 +241,4 @@ MNRAS, https://ui.adsabs.harvard.edu/abs/2021MNRAS.504.3730C/abstract
 <a id="2">Cardiel et al. (2021b)</a>, 
 MNRAS, https://ui.adsabs.harvard.edu/abs/2021MNRAS.507..318C/abstract
 
-<a id="3">Carrasco et al. (2023)</a>, Remote Sensing, in press
+<a id="3">Carrasco et al. (2023)</a>, Remote Sensing, https://www.mdpi.com/2072-4292/15/7/1767
