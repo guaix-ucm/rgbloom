@@ -170,7 +170,7 @@ The `rgbloom` script executes the following steps:
 - Step 6: generation of a finding chart plot (in PDF format): `rgbloom.pdf`. 
   The execution of the previous example generates a cone search around 
   the [Pleiades](https://en.wikipedia.org/wiki/Pleiades) star cluster:
-  ![Pleiades plot](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v4.png)
+  ![Pleiades plot](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v5.png)
   The objects in this plot are color coded based on the *Gaia* G_BP - G_RP 
   colour. Stars brighter than a pre-defined threshold are displayed 
   with big star symbols. To facilitate the identification of each object, the
