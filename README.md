@@ -35,9 +35,9 @@ the script to work!
 ## Installing the code
 
 In order to keep your current Python installation clean, it is highly 
-recommended to install a python 3 *virtual environment* first.
+recommended to first build Python 3 *virtual environment*.
 
-### Creating and activating the python virtual environment
+### Creating and activating the Python virtual environment
 
 ```bash
 $ python3 -m venv venv_rgb
@@ -47,11 +47,18 @@ $ . venv_rgb/bin/activate
 
 ### Installing the package
 
+We recommend installing the latest stable version, which is available via
+the PyPI respository:
+
+```bash
+(venv_rgb) $ pip install rgbloom
+```
+
+The latest development version is available through GitHub:
+
 ```bash
 (venv_rgb) $ pip install git+https://github.com/guaix-ucm/rgbloom.git@main#egg=rgbloom
 ```
-
-
 
 ## Executing the program
 
