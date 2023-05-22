@@ -10,6 +10,7 @@
 Generate output PDF plot
 """
 
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.style
 from astropy import units as u
@@ -23,7 +24,8 @@ OUTTYPES_COLOR = {'200m': 'red', 'no200m': 'black', 'var': 'blue'}
 matplotlib.use('pdf')
 
 
-def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, symbsize, brightlimit,
+def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, brightlimit,
+          symbsize, max_symbsize, min_symbsize, mag_power, num_fontsize,
           nonumbers, nocolor, basename, version, verbose):
     """Perform EDR3 query
 
@@ -41,11 +43,21 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, symbsi
         of the field of view.
     search_radius : float
         Radius (decimal degrees) of the field of view.
-    symbsize : float
-        Multiplying factor for symbol size.
     brightlimit : float
         Stars brighter than this Gaia G limit are displayed with star
         symbols.
+    symbsize : float
+        Global multiplying factor for symbol size.
+    max_symbsize : float
+        Maximum symbol size in chart.
+    min_symbsize : float
+        Minimum symbol size in chart.
+    mag_power: float
+        Power to scale symbol sizes in chart. The relative magnitude
+        difference (rescaled between 0 and 1) is raised to this power
+        to set the symbol size.
+    num_fontsize : int
+        Font size for numbers in chart.
     nonumbers : bool
         If True, do not display star numbers in PDF chart.
     nocolor : bool
@@ -59,6 +71,11 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, symbsi
 
     """
     print('<STEP6> Generating PDF plot')
+
+    # color map
+    cmap = plt.cm.get_cmap('jet')
+    cmap_vmin = -0.5
+    cmap_vmax = 2.0
 
     # define WCS
     naxis1 = 1024
@@ -90,27 +107,37 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, symbsi
         if verbose:
             r_table.pprint(max_width=1000)
 
-        symbol_size = symbsize * (50 / np.array(r_table['phot_g_mean_mag'])) ** 2.5
+        # define symbol size
+        min_mag = np.min(r_table['phot_g_mean_mag'])
+        max_mag = np.max(r_table['phot_g_mean_mag'])
+        norm_delta_mag = (np.array(r_table['phot_g_mean_mag'])-min_mag)/(max_mag - min_mag)
+        symbol_size = max_symbsize - (norm_delta_mag**(1/mag_power)) * (max_symbsize - min_symbsize)
+        symbol_size *= symbsize
         ra_array = np.array(r_table['ra'])
         dec_array = np.array(r_table['dec'])
 
         c = SkyCoord(ra=ra_array * u.degree, dec=dec_array * u.degree, frame='icrs')
         x_pix, y_pix = wcs_image.world_to_pixel(c)
 
-        iok = r_table['phot_g_mean_mag'] < brightlimit
+        iok_bool = r_table['phot_g_mean_mag'] > brightlimit
+        iok = np.arange(len(iok_bool))[iok_bool]
+        iokstar = np.arange(len(iok_bool))[~iok_bool]
         if nocolor:
-            sc = ax.scatter(x_pix[iok], y_pix[iok], marker='*', color='grey',
-                            edgecolors='black', linewidth=0.2, s=symbol_size[iok])
-            ax.scatter(x_pix[~iok], y_pix[~iok], marker='.', color='grey',
-                       edgecolors='black', linewidth=0.2, s=symbol_size[~iok])
+            for i in iokstar:
+                ax.scatter(x_pix[i], y_pix[i], marker='*', color='grey',
+                           edgecolors='white', linewidth=0.2, s=symbol_size[i], zorder=i+1)
+            for i in iok:
+                ax.scatter(x_pix[i], y_pix[i], marker='.', color='grey',
+                           edgecolors='white', linewidth=0.2, s=symbol_size[i], zorder=i+1)
         else:
-            cmap = plt.cm.get_cmap('jet')
-            sc = ax.scatter(x_pix[iok], y_pix[iok], marker='*',
-                            edgecolors='black', linewidth=0.2, s=symbol_size[iok],
-                            cmap=cmap, c=r_table[iok]['bp_rp'], vmin=-0.5, vmax=2.0)
-            ax.scatter(x_pix[~iok], y_pix[~iok], marker='.',
-                       edgecolors='black', linewidth=0.2, s=symbol_size[~iok],
-                       cmap=cmap, c=r_table[~iok]['bp_rp'], vmin=-0.5, vmax=2.0)
+            for i in iokstar:
+                ax.scatter(x_pix[i], y_pix[i], marker='*',
+                           edgecolors='black', linewidth=0.2, s=symbol_size[i], zorder=i+1,
+                           cmap=cmap, c=r_table[i]['bp_rp'], vmin=cmap_vmin, vmax=cmap_vmax)
+            for i in iok:
+                ax.scatter(x_pix[i], y_pix[i], marker='.',
+                           edgecolors='black', linewidth=0.2, s=symbol_size[i], zorder=i+1,
+                           cmap=cmap, c=r_table[i]['bp_rp'], vmin=cmap_vmin, vmax=cmap_vmax)
 
         # display numbers if requested
         if not nonumbers:
@@ -121,8 +148,9 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, symbsi
                 else:
                     bbox = None
                 ax.text(x_pix[irow], y_pix[irow], text, bbox=bbox,
-                        color=OUTTYPES_COLOR[sample], fontsize='5',
-                        horizontalalignment='left', verticalalignment='bottom')
+                        color=OUTTYPES_COLOR[sample], fontsize=num_fontsize,
+                        horizontalalignment='left', verticalalignment='bottom',
+                        zorder=len(r_table) + 10)
 
         if sample == 'no200m':
             # stars outside the -0.5 < G_BP - G_RP < 2.0 colour cut
@@ -130,14 +158,14 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, symbsi
             if np.any(mask_colour):
                 iok = np.argwhere(mask_colour)
                 ax.scatter(x_pix[iok], y_pix[iok], s=240, marker='D',
-                           facecolors='none', edgecolors='grey', linewidth=0.5)
+                           facecolors='none', edgecolors='grey', linewidth=0.5, zorder=0)
 
             # variable stars
             mask_variable = r_dr3_no200m['phot_variable_flag'] == 'VARIABLE'
             if np.any(mask_variable):
                 iok = np.argwhere(mask_variable)
                 ax.scatter(x_pix[iok], y_pix[iok], s=240, marker='s',
-                           facecolors='none', edgecolors='blue', linewidth=0.5)
+                           facecolors='none', edgecolors='blue', linewidth=0.5, zorder=0)
 
     # legend
     ax.scatter(0.03, 0.96, s=240, marker='s', facecolors='white',
@@ -158,9 +186,11 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, symbsi
 
     if not nocolor:
         cbaxes = fig.add_axes([0.683, 0.81, 0.15, 0.02])
-        cbar = plt.colorbar(sc, cax=cbaxes, orientation='horizontal', format='%1.0f')
+        norm = mpl.colors.Normalize(vmin=cmap_vmin, vmax=cmap_vmax)
+        cbar = fig.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cbaxes,
+                            orientation='horizontal', format='%1.0f')
         cbar.ax.tick_params(labelsize=12)
-        cbar.set_label(label=r'$G_{\rm BP}-G_{\rm RP}$', size=12, backgroundcolor='white')
+        cbar.set_label(label=r'$G_{\rm BP}-G_{\rm RP}$ (mag)', size=12, backgroundcolor='white')
 
     ax.text(0.98, 0.96, f'Field radius: {search_radius:.4f} degree', fontsize=12, backgroundcolor='white',
             horizontalalignment='right', verticalalignment='center', transform=ax.transAxes)

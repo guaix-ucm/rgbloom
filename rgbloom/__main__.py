@@ -150,8 +150,12 @@ def exec_rgbloom(args):
             args.ra_center,
             args.dec_center,
             args.search_radius,
-            args.symbsize,
             args.brightlimit,
+            args.symbsize,
+            args.max_symbsize,
+            args.min_symbsize,
+            args.mag_power,
+            args.num_fontsize,
             args.nonumbers,
             args.nocolor,
             args.basename,
@@ -172,9 +176,18 @@ def main():
     parser.add_argument("--brightlimit",
                         help="objects brighter than this Gaia G limit are displayed with star symbols (default=8.0)",
                         type=float, default=8.0)
-    parser.add_argument("--symbsize", help="multiplying factor for symbol size (default=1.0)",
+    parser.add_argument("--symbsize", help="global multiplying factor for symbol size (default=1.0)",
                         type=float, default=1.0)
-    parser.add_argument("--nonumbers", help="do not display object identification number in PDF chart", action="store_true")
+    parser.add_argument("--max_symbsize", help="maximum symbol size in chart (default=1000)",
+                        type=float, default=1000)
+    parser.add_argument("--min_symbsize", help="minimum symbol size in chart (default=10)",
+                        type=float, default=10)
+    parser.add_argument("--mag_power", help="power to scale symbol sizes in chart (default=3)",
+                        type=float, default=3)
+    parser.add_argument("--num_fontsize", help="font size for numbers in chart (default=5)",
+                        type=int, default=5)
+    parser.add_argument("--nonumbers", help="do not display object identification number in PDF chart",
+                        action="store_true")
     parser.add_argument("--noplot", help="skip PDF chart generation", action="store_true")
     parser.add_argument("--nocolor", help="do not use colors in PDF chart", action="store_true")
     parser.add_argument("--verbose", help="increase program verbosity", action="store_true")
