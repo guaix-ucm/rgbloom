@@ -10,12 +10,13 @@
 Generate output PDF plot
 """
 
+from astropy import units as u
+from astropy.table import vstack
+from astropy.wcs import WCS
+from astropy.coordinates import SkyCoord
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.style
-from astropy import units as u
-from astropy.wcs import WCS
-from astropy.coordinates import SkyCoord
 import numpy as np
 
 from .style import mpl_style
@@ -25,8 +26,9 @@ matplotlib.use('pdf')
 
 
 def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, brightlimit,
-          symbsize, max_symbsize, min_symbsize, mag_power, num_fontsize,
-          nonumbers, nocolor, basename, version, verbose):
+          symbsize, max_symbsize, min_symbsize, mag_power,
+          display_g_mag, num_fontsize, nonumbers, nocolor,
+          basename, version, verbose):
     """Perform EDR3 query
 
     Parameters
@@ -56,6 +58,8 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
         Power to scale symbol sizes in chart. The relative magnitude
         difference (rescaled between 0 and 1) is raised to this power
         to set the symbol size.
+    display_g_mag : bool
+        If True display Gaia G mag instead of object number.
     num_fontsize : int
         Font size for numbers in chart.
     nonumbers : bool
@@ -97,25 +101,30 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
     ax = plt.subplot(projection=wcs_image)
 
     # generate plot
-    for sample in ['200m', 'no200m']:
-        if sample == '200m':
-            r_table = r_dr3_200m
-        else:
-            r_table = r_dr3_no200m
+    if len(r_dr3_200m) > 0 and len(r_dr3_no200m) > 0:
+        r_table = vstack([r_dr3_200m, r_dr3_no200m])
+    elif len(r_dr3_200m) > 0:
+        r_table = r_dr3_200m
+    elif len(r_dr3_no200m) > 0:
+        r_table = r_dr3_no200m
+    else:
+        r_table = None
 
+    if r_table is not None:
         r_table.sort('phot_g_mean_mag')
         if verbose:
             r_table.pprint(max_width=1000)
 
         # define symbol size
-        min_mag = np.min(r_table['phot_g_mean_mag'])
-        max_mag = np.max(r_table['phot_g_mean_mag'])
+        min_mag = np.ma.min(r_table['phot_g_mean_mag'].value)
+        max_mag = np.ma.max(r_table['phot_g_mean_mag'].value)
         norm_delta_mag = (np.array(r_table['phot_g_mean_mag'])-min_mag)/(max_mag - min_mag)
         symbol_size = max_symbsize - (norm_delta_mag**(1/mag_power)) * (max_symbsize - min_symbsize)
         symbol_size *= symbsize
+
+        # (X, Y) coordinates
         ra_array = np.array(r_table['ra'])
         dec_array = np.array(r_table['dec'])
-
         c = SkyCoord(ra=ra_array * u.degree, dec=dec_array * u.degree, frame='icrs')
         x_pix, y_pix = wcs_image.world_to_pixel(c)
 
@@ -142,30 +151,43 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
         # display numbers if requested
         if not nonumbers:
             for irow in range(len(r_table)):
-                text = r_table[irow]['number']
+                if display_g_mag:
+                    text = f'{r_table[irow]["phot_g_mean_mag"]:.2f}'
+                else:
+                    text = r_table[irow]['number']
                 if r_table[irow]['qlflag'] == 1:
                     bbox = dict(facecolor='none', edgecolor='gray', boxstyle='round, pad=0.2', lw=1, alpha=0.3)
                 else:
                     bbox = None
+                if isinstance(r_table[irow]['qlflag'], np.int64):
+                    textcolor = OUTTYPES_COLOR['200m']
+                else:
+                    textcolor = OUTTYPES_COLOR['no200m']
                 ax.text(x_pix[irow], y_pix[irow], text, bbox=bbox,
-                        color=OUTTYPES_COLOR[sample], fontsize=num_fontsize,
+                        color=textcolor, fontsize=num_fontsize,
                         horizontalalignment='left', verticalalignment='bottom',
                         zorder=len(r_table) + 10)
 
-        if sample == 'no200m':
-            # stars outside the -0.5 < G_BP - G_RP < 2.0 colour cut
-            mask_colour = np.logical_or((r_dr3_no200m['bp_rp'] <= -0.5), (r_dr3_no200m['bp_rp'] >= 2.0))
-            if np.any(mask_colour):
-                iok = np.argwhere(mask_colour)
-                ax.scatter(x_pix[iok], y_pix[iok], s=240, marker='D',
-                           facecolors='none', edgecolors='grey', linewidth=0.5, zorder=0)
+    if len(r_dr3_no200m) > 0:
+        # (X, Y) coordinates
+        ra_array = np.array(r_dr3_no200m['ra'])
+        dec_array = np.array(r_dr3_no200m['dec'])
+        c = SkyCoord(ra=ra_array * u.degree, dec=dec_array * u.degree, frame='icrs')
+        x_pix, y_pix = wcs_image.world_to_pixel(c)
 
-            # variable stars
-            mask_variable = r_dr3_no200m['phot_variable_flag'] == 'VARIABLE'
-            if np.any(mask_variable):
-                iok = np.argwhere(mask_variable)
-                ax.scatter(x_pix[iok], y_pix[iok], s=240, marker='s',
-                           facecolors='none', edgecolors='blue', linewidth=0.5, zorder=0)
+        # stars outside the -0.5 < G_BP - G_RP < 2.0 colour cut
+        mask_colour = np.logical_or((r_dr3_no200m['bp_rp'] <= -0.5), (r_dr3_no200m['bp_rp'] >= 2.0))
+        if np.any(mask_colour):
+            iok_bool = np.argwhere(mask_colour)
+            ax.scatter(x_pix[iok_bool], y_pix[iok_bool], s=240, marker='D',
+                       facecolors='none', edgecolors='grey', linewidth=0.5, zorder=0)
+
+        # variable stars
+        mask_variable = r_dr3_no200m['phot_variable_flag'] == 'VARIABLE'
+        if np.any(mask_variable):
+            iok_bool = np.argwhere(mask_variable)
+            ax.scatter(x_pix[iok_bool], y_pix[iok_bool], s=240, marker='s',
+                       facecolors='none', edgecolors=OUTTYPES_COLOR['var'], linewidth=0.5, zorder=0)
 
     # legend
     ax.scatter(0.03, 0.96, s=240, marker='s', facecolors='white',
