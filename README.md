@@ -85,7 +85,7 @@ terminal (except for the absolute path where the auxiliary downloaded files
 are stored):
 
 ```
-        Welcome to rgbloom version 1.2
+        Welcome to rgbloom version 1.4
         ==============================
 
 Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/reference_healpix8.csv' to file '/Users/cardiel/Library/Caches/pooch/635cd722cf61b23bd8eee20635e4d580-reference_healpix8.csv'.
@@ -177,7 +177,7 @@ The `rgbloom` script executes the following steps:
 - Step 6: generation of a finding chart plot (in PDF format): `rgbloom.pdf`. 
   The execution of the previous example generates a cone search around 
   the [Pleiades](https://en.wikipedia.org/wiki/Pleiades) star cluster:
-  ![Pleiades plot](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v5.png)
+  ![Pleiades plot](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v6.png)
   The objects in this plot are color coded based on the *Gaia* G_BP - G_RP 
   colour. Stars brighter than a pre-defined threshold are displayed 
   with big star symbols. To facilitate the identification of each object, the
@@ -205,9 +205,12 @@ invoking the script help:
 
 ```bash
 $ rgbloom --help
+usage: rgbloom [-h] [--basename BASENAME] [--brightlimit BRIGHTLIMIT] [--symbsize SYMBSIZE] [--max_symbsize MAX_SYMBSIZE]
+               [--min_symbsize MIN_SYMBSIZE] [--mag_power MAG_POWER] [--display_g_mag] [--num_fontsize NUM_FONTSIZE]
+               [--nonumbers] [--noplot] [--nocolor] [--verbose]
+               ra_center dec_center search_radius g_limit
 
-...
-...
+RGB predictions from Gaia DR3 spectrophotometry (version 1.4)
 
 positional arguments:
   ra_center             right Ascension (decimal degrees)
@@ -220,7 +223,16 @@ optional arguments:
   --basename BASENAME   file basename for output files
   --brightlimit BRIGHTLIMIT
                         objects brighter than this Gaia G limit are displayed with star symbols (default=8.0)
-  --symbsize SYMBSIZE   multiplying factor for symbol size (default=1.0)
+  --symbsize SYMBSIZE   global multiplying factor for symbol size (default=1.0)
+  --max_symbsize MAX_SYMBSIZE
+                        maximum symbol size in chart (default=1000)
+  --min_symbsize MIN_SYMBSIZE
+                        minimum symbol size in chart (default=10)
+  --mag_power MAG_POWER
+                        power to scale symbol sizes in chart (default=3)
+  --display_g_mag       display Gaia G magnitude instead of object number
+  --num_fontsize NUM_FONTSIZE
+                        font size for numbers in chart (default=5)
   --nonumbers           do not display object identification number in PDF chart
   --noplot              skip PDF chart generation
   --nocolor             do not use colors in PDF chart
