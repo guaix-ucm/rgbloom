@@ -39,7 +39,7 @@ recommended to first build Python 3 *virtual environment*.
 
 ### Creating and activating the Python virtual environment
 
-```bash
+```shell
 $ python3 -m venv venv_rgb
 $ . venv_rgb/bin/activate
 (venv_rgb) $
@@ -48,15 +48,15 @@ $ . venv_rgb/bin/activate
 ### Installing the package
 
 We recommend installing the latest stable version, which is available via
-the PyPI respository:
+the [PyPI respository](https://pypi.org/project/rgbloom/):
 
-```bash
+```shell
 (venv_rgb) $ pip install rgbloom
 ```
 
 The latest development version is available through GitHub:
 
-```bash
+```shell
 (venv_rgb) $ pip install git+https://github.com/guaix-ucm/rgbloom.git@main#egg=rgbloom
 ```
 
@@ -64,7 +64,7 @@ The latest development version is available through GitHub:
 
 Just execute it from the command line:
 
-```bash
+```shell
 (venv_rgb) $ rgbloom 56.66 24.10 1.0 12
 ```
 
@@ -85,7 +85,7 @@ terminal (except for the absolute path where the auxiliary downloaded files
 are stored):
 
 ```
-        Welcome to rgbloom version 1.4
+        Welcome to rgbloom version 1.5
         ==============================
 
 Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/reference_healpix8.csv' to file '/Users/cardiel/Library/Caches/pooch/635cd722cf61b23bd8eee20635e4d580-reference_healpix8.csv'.
@@ -198,19 +198,24 @@ Note that the three output archives (1 PDF and 2 CSV files) share the same root
 name `rgbloom`. This can be easily modified using the optional argument
 `--basename <newbasename>` in the command line.
 
+Since version 1.5, it is also possible to display a particular magnitude
+(instead of the objetc number in the CSV files) using `--display_mag
+<magname>`, where `<magname>` can be any of the following: `RGB_B`, `RGB_R`,
+`RGB_R`, `Gaia_G`, `Gaia_BP`, `Gaia_RP`, `Gaia_BP-RP`.
+
+
 ### Additional help
 
 Some auxiliary optional arguments are also available. See description 
 invoking the script help:
 
-```bash
+```shell
 $ rgbloom --help
-usage: rgbloom [-h] [--basename BASENAME] [--brightlimit BRIGHTLIMIT] [--symbsize SYMBSIZE] [--max_symbsize MAX_SYMBSIZE]
-               [--min_symbsize MIN_SYMBSIZE] [--mag_power MAG_POWER] [--display_g_mag] [--num_fontsize NUM_FONTSIZE]
-               [--nonumbers] [--noplot] [--nocolor] [--verbose]
+usage: rgbloom [-h] [--basename BASENAME] [--brightlimit BRIGHTLIMIT] [--symbsize SYMBSIZE] [--max_symbsize MAX_SYMBSIZE] [--min_symbsize MIN_SYMBSIZE] [--mag_power MAG_POWER] [--display_mag {None,RGB_B,RGB_G,RGB_R,Gaia_G,Gaia_BP,Gaia_RP,Gaia_BP_RP}]
+               [--num_fontsize NUM_FONTSIZE] [--nonumbers] [--noplot] [--nocolor] [--verbose]
                ra_center dec_center search_radius g_limit
 
-RGB predictions from Gaia DR3 spectrophotometry (version 1.4)
+RGB predictions from Gaia DR3 spectrophotometry (version 1.5)
 
 positional arguments:
   ra_center             right Ascension (decimal degrees)
@@ -230,7 +235,8 @@ optional arguments:
                         minimum symbol size in chart (default=10)
   --mag_power MAG_POWER
                         power to scale symbol sizes in chart (default=3)
-  --display_g_mag       display Gaia G magnitude instead of object number
+  --display_mag {None,RGB_B,RGB_G,RGB_R,Gaia_G,Gaia_BP,Gaia_RP,Gaia_BP_RP}
+                        display selected magnitude instead of object number
   --num_fontsize NUM_FONTSIZE
                         font size for numbers in chart (default=5)
   --nonumbers           do not display object identification number in PDF chart

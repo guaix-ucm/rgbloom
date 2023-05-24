@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import matplotlib.style
 import numpy as np
 
+from ..choices_mag_plot import CHOICES_MAG_PLOT
 from .style import mpl_style
 OUTTYPES_COLOR = {'200m': 'red', 'no200m': 'black', 'var': 'blue'}
 
@@ -27,7 +28,7 @@ matplotlib.use('pdf')
 
 def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, brightlimit,
           symbsize, max_symbsize, min_symbsize, mag_power,
-          display_g_mag, num_fontsize, nonumbers, nocolor,
+          display_mag, num_fontsize, nonumbers, nocolor,
           basename, version, verbose):
     """Perform EDR3 query
 
@@ -58,8 +59,8 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
         Power to scale symbol sizes in chart. The relative magnitude
         difference (rescaled between 0 and 1) is raised to this power
         to set the symbol size.
-    display_g_mag : bool
-        If True display Gaia G mag instead of object number.
+    display_mag : bool
+        If True display selected magnitude instead of object number.
     num_fontsize : int
         Font size for numbers in chart.
     nonumbers : bool
@@ -151,8 +152,12 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
         # display numbers if requested
         if not nonumbers:
             for irow in range(len(r_table)):
-                if display_g_mag:
-                    text = f'{r_table[irow]["phot_g_mean_mag"]:.2f}'
+                if CHOICES_MAG_PLOT[display_mag] is not None:
+                    dumvalue = r_table[irow][CHOICES_MAG_PLOT[display_mag]]
+                    if isinstance(dumvalue, np.ma.core.MaskedConstant):
+                        text = 'NA'  # Not Available
+                    else:
+                        text = f'{dumvalue:.2f}'
                 else:
                     text = r_table[irow]['number']
                 if r_table[irow]['qlflag'] == 1:
@@ -190,17 +195,37 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
                        facecolors='none', edgecolors=OUTTYPES_COLOR['var'], linewidth=0.5, zorder=0)
 
     # legend
-    ax.scatter(0.03, 0.96, s=240, marker='s', facecolors='white',
+    ax.scatter(0.03, 0.97, s=240, marker='s', facecolors='white',
                edgecolors=OUTTYPES_COLOR['var'], linewidth=0.5,
                transform=ax.transAxes)
-    ax.text(0.06, 0.96, 'variable in Gaia DR3', fontsize=12, backgroundcolor='white',
+    ax.text(0.06, 0.97, 'variable in Gaia DR3', fontsize=12, backgroundcolor='white',
             horizontalalignment='left', verticalalignment='center', transform=ax.transAxes)
 
-    ax.scatter(0.03, 0.92, s=240, marker='D', facecolors='white', edgecolors='grey', linewidth=0.5,
+    ax.scatter(0.03, 0.93, s=240, marker='D', facecolors='white', edgecolors='grey', linewidth=0.5,
                transform=ax.transAxes)
-    ax.text(0.06, 0.92, 'outside colour range', fontsize=12, backgroundcolor='white',
+    ax.text(0.06, 0.93, 'outside colour range', fontsize=12, backgroundcolor='white',
             horizontalalignment='left', verticalalignment='center', transform=ax.transAxes)
 
+    if CHOICES_MAG_PLOT[display_mag] is None:
+        ax.text(0.03, 0.89, 'n', color='red', fontsize=12,
+                horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
+        ax.text(0.06, 0.89, '# in *_200m.csv', color='gray', fontsize=12,
+                horizontalalignment='left', verticalalignment='center', transform=ax.transAxes)
+        ax.text(0.03, 0.85, 'n', color='black', fontsize=12,
+                horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
+        ax.text(0.06, 0.85, '# in *_no200m.csv', color='gray', fontsize=12,
+                horizontalalignment='left', verticalalignment='center', transform=ax.transAxes)
+    else:
+        ax.text(0.03, 0.89, 'mag', color='red', fontsize=12,
+                horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
+        ax.text(0.06, 0.89, f'{display_mag} in *_200m.csv', color='gray', fontsize=12,
+                horizontalalignment='left', verticalalignment='center', transform=ax.transAxes)
+        ax.text(0.03, 0.85, 'mag', color='black', fontsize=12,
+                horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
+        ax.text(0.06, 0.85, f'{display_mag} in *_no200m.csv', color='gray', fontsize=12,
+                horizontalalignment='left', verticalalignment='center', transform=ax.transAxes)
+
+    # plot labels
     ax.set_xlabel('ra')
     ax.set_ylabel('dec')
 

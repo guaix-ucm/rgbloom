@@ -23,6 +23,7 @@ import pandas as pd
 import pooch
 import sys
 
+from .choices_mag_plot import CHOICES_MAG_PLOT
 from .core.step1 import step1
 from .core.step2 import step2
 from .core.step3 import step3
@@ -155,7 +156,7 @@ def exec_rgbloom(args):
             args.max_symbsize,
             args.min_symbsize,
             args.mag_power,
-            args.display_g_mag,
+            args.display_mag,
             args.num_fontsize,
             args.nonumbers,
             args.nocolor,
@@ -185,8 +186,8 @@ def main():
                         type=float, default=10)
     parser.add_argument("--mag_power", help="power to scale symbol sizes in chart (default=3)",
                         type=float, default=3)
-    parser.add_argument("--display_g_mag", help="display Gaia G magnitude instead of object number",
-                        action="store_true")
+    parser.add_argument("--display_mag", help="display selected magnitude instead of object number",
+                        type=str, default="None", choices=list(CHOICES_MAG_PLOT.keys()))
     parser.add_argument("--num_fontsize", help="font size for numbers in chart (default=5)",
                         type=int, default=5)
     parser.add_argument("--nonumbers", help="do not display object identification number in PDF chart",
