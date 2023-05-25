@@ -155,7 +155,12 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
                 if CHOICES_MAG_PLOT[display_mag] is not None:
                     dumvalue = r_table[irow][CHOICES_MAG_PLOT[display_mag]]
                     if isinstance(dumvalue, np.ma.core.MaskedConstant):
-                        text = 'NA'  # Not Available
+                        if display_mag in ['RGB_B', 'RGB_G', 'RGB_R']:
+                            # Use C21 estimates
+                            dumvalue = r_table[irow][f'{CHOICES_MAG_PLOT[display_mag]}_C21']
+                            text = f'({dumvalue:.2f})'
+                        else:
+                            text = 'NA'  # Not Available
                     else:
                         text = f'{dumvalue:.2f}'
                 else:
