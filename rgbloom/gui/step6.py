@@ -149,7 +149,7 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
                            edgecolors='black', linewidth=0.2, s=symbol_size[i], zorder=i+1,
                            cmap=cmap, c=r_table[i]['bp_rp'], vmin=cmap_vmin, vmax=cmap_vmax)
 
-        # display numbers if requested
+        # display numbers (or magnitudes) if requested
         if not nonumbers:
             for irow in range(len(r_table)):
                 if CHOICES_MAG_PLOT[display_mag] is not None:
@@ -177,6 +177,9 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
                         color=textcolor, fontsize=num_fontsize,
                         horizontalalignment='left', verticalalignment='bottom',
                         zorder=len(r_table) + 10)
+    else:
+        min_mag = None
+        max_mag = None
 
     if len(r_dr3_no200m) > 0:
         # (X, Y) coordinates
@@ -229,6 +232,39 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
                 horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
         ax.text(0.06, 0.85, f'{display_mag} in *_no200m.csv', color='gray', fontsize=12,
                 horizontalalignment='left', verticalalignment='center', transform=ax.transAxes)
+
+    # magnitude legend
+    if min_mag is not None and max_mag is not None:
+        imin_mag = int(min_mag)
+        if imin_mag*100000 != int(min_mag * 100000):
+            imin_mag += 1
+        imax_mag = int(max_mag)
+        if imax_mag*100000 != int(max_mag * 100000):
+            imax_mag += 1
+        nmag = imax_mag - imin_mag + 1
+        if nmag > 10:
+            step = 2
+        else:
+            step = 1
+        lmag = list(range(imin_mag, imax_mag + 1, step))
+        delta_ypos = 0.05
+        ypos0 = 0.5 + (len(lmag) + 1)/2 * delta_ypos
+        ax.text(0.01, ypos0, 'Gaia G', color='black', fontsize=12,
+                horizontalalignment='left', verticalalignment='center', transform=ax.transAxes)
+        for iorder, imag in enumerate(lmag):
+            norm_delta_mag = (imag - min_mag) / (max_mag - min_mag)
+            symbol_size = max_symbsize - (norm_delta_mag ** (1 / mag_power)) * (max_symbsize - min_symbsize)
+            symbol_size *= symbsize
+            if imag <= brightlimit:
+                marker = '*'
+            else:
+                marker = '.'
+            ypos = ypos0 - (iorder+ 1) * delta_ypos
+            ax.scatter(0.03, ypos, s=symbol_size, marker=marker, color='grey',
+                       edgecolors='black', linewidth=0.2,
+                       transform=ax.transAxes)
+            ax.text(0.07, ypos, f'{imag:2d}', color='black', fontsize=12,
+                    horizontalalignment='right', verticalalignment='center', transform=ax.transAxes)
 
     # plot labels
     ax.set_xlabel('ra')
