@@ -82,7 +82,7 @@ terminal (except for the absolute path where the auxiliary downloaded files
 are stored):
 
 ```
-        Welcome to rgbloom version 1.6
+        Welcome to rgbloom version 1.7
         ==============================
 
 Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/reference_healpix8.csv' to file '/Users/cardiel/Library/Caches/pooch/635cd722cf61b23bd8eee20635e4d580-reference_healpix8.csv'.
