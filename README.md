@@ -172,17 +172,18 @@ The `rgbloom` script executes the following steps:
   The list of objects in these two files is sorted by right ascension.
 
 - **Step 6**: generation of a finding chart plot (in PDF format): `rgbloom.pdf`. 
-  The execution of the previous example generates a cone search around 
-  the [Pleiades](https://en.wikipedia.org/wiki/Pleiades) star cluster:
-  ![Pleiades plot](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v7.png)
-  The object symbol size is scaled based on the Gaia G magnitude, and
-  are color coded based on the *Gaia* G_BP - G_RP 
-  colour. Objects brighter than a predefined threshold are represented
-  by larger star symbols. To aid in object identification, the
-  consecutive identification numbers from the two files `rgbloom_200m.csv` and
-  `rgbloom_no200m.csv`, are displayed in red
-  and black, respectively. As these files are sorted by right ascension, 
-  the identification numbers increase sequentially on the chart.
+  The execution of the previous example generates a cone search around the
+  [Pleiades](https://en.wikipedia.org/wiki/Pleiades) star cluster: ![Pleiades
+  plot](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v8.png) In this
+  plot (see [PDF
+  file](http://nartex.hst.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v8.pdf)) the
+  object symbol size is scaled based on the Gaia G magnitude, and are color
+  coded based on the *Gaia* G_BP - G_RP colour. Objects brighter than a
+  predefined threshold are represented by larger star symbols. To aid in object
+  identification, the consecutive identification numbers from the two files
+  `rgbloom_200m.csv` and `rgbloom_no200m.csv`, are displayed in red and black,
+  respectively. As these files are sorted by right ascension, the
+  identification numbers increase sequentially on the chart.
 
   In the case of less reliable sources in `rgbloom_20m.csv` (where `qlflag=1`),
   the corresponding identification numbers are enclosed within a rectangle with
