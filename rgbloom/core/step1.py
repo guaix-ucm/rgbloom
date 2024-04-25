@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2022 Universidad Complutense de Madrid
+# Copyright 2022-2024 Universidad Complutense de Madrid
 #
 # SPDX-License-Identifier: GPL-3.0+
 # License-Filename: LICENSE.txt
