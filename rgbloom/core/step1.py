@@ -84,4 +84,9 @@ def step1(ra_center, dec_center, search_radius, g_limit, verbose):
     if verbose:
         r_dr3.pprint(max_width=1000)
 
+    # change the column labels to lowercase
+    # (important: the Gaia database has changed 'source_id' by 'SOURCE_ID')
+    new_colnames = [colname.lower() for colname in r_dr3.colnames]
+    r_dr3.rename_columns(r_dr3.colnames, new_colnames)
+
     return r_dr3, nstars
