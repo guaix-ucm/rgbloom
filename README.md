@@ -82,7 +82,7 @@ terminal (except for the absolute path where the auxiliary downloaded files
 are stored):
 
 ```
-        Welcome to rgbloom version 1.7
+        Welcome to rgbloom version 1.9
         ==============================
 
 Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/reference_healpix8.csv' to file '/Users/cardiel/Library/Caches/pooch/635cd722cf61b23bd8eee20635e4d580-reference_healpix8.csv'.
@@ -98,10 +98,10 @@ Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/RGBsyntheti
         --> Number of objects: 100553
         --> Total number of objects: 100553
 <STEP4> Cross-matching DR3 with 200M sample
-        --> Number of objects in the 200M subsample............: 100553
-        --> Number of objects in DR3 query.....................: 310
-        --> Number of DR3 objects within the 200M sample.......: 248
-        --> Number of DR3 objects no present in the 200M sample: 62
+        --> Number of objects in the 200M subsample.............: 100553
+        --> Number of objects in DR3 query......................: 310
+        --> Number of DR3 objects within the 200M sample........: 248
+        --> Number of DR3 objects not present in the 200M sample: 62
 <STEP5> Saving output CSV files
         --> file rgbloom_200m.csv saved
         --> file rgbloom_no200m.csv saved

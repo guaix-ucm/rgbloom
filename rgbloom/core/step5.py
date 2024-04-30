@@ -19,7 +19,7 @@ def step5(r_dr3_200m, r_dr3_no200m, basename, verbose):
     r_dr3_200m : astropy Table
         Objects in both the DR3 query and the 200M sample.
     r_dr3_no200m : astropy Table
-        Objects in the DR3 query no present in the 200M sample.
+        Objects in the DR3 query not present in the 200M sample.
     basename : str
         Base name for output files.
     verbose : bool

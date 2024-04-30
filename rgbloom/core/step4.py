@@ -31,7 +31,7 @@ def step4(r_dr3, r_200m, verbose):
     r_dr3_200m : astropy Table
         Objects in both the DR3 query and the 200M sample.
     r_dr3_no200m : astropy Table
-        Objects in the DR3 query no present in the 200M sample.
+        Objects in the DR3 query not present in the 200M sample.
 
     """
     print('<STEP4> Cross-matching DR3 with 200M sample')
@@ -42,16 +42,16 @@ def step4(r_dr3, r_200m, verbose):
     r_dr3_200m = join(r_dr3, r_200m, keys='source_id', join_type='inner')
 
     # all objects in DR3 query with data from the 200M sample when available,
-    # or with missing entries when no present in the 200M sample
+    # or with missing entries when not present in the 200M sample
     r_dr3_all = join(r_dr3, r_200m, keys='source_id', join_type='left')
 
-    # objects in DR3 query no present in the 200M sample
+    # objects in DR3 query not present in the 200M sample
     r_dr3_no200m = setdiff(r_dr3_all, r_dr3_200m, keys=['source_id'])
 
-    print(f'        --> Number of objects in the 200M subsample............: {len(r_200m)}')
-    print(f'        --> Number of objects in DR3 query.....................: {len(r_dr3_all)}')
-    print(f'        --> Number of DR3 objects within the 200M sample.......: {len(r_dr3_200m)}')
-    print(f'        --> Number of DR3 objects no present in the 200M sample: {len(r_dr3_no200m)}')
+    print(f'        --> Number of objects in the 200M subsample.............: {len(r_200m)}')
+    print(f'        --> Number of objects in DR3 query......................: {len(r_dr3_all)}')
+    print(f'        --> Number of DR3 objects within the 200M sample........: {len(r_dr3_200m)}')
+    print(f'        --> Number of DR3 objects not present in the 200M sample: {len(r_dr3_no200m)}')
 
     # sort tables by RA
     r_dr3_all.sort('ra')

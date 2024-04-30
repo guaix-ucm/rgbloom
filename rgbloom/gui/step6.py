@@ -37,7 +37,7 @@ def step6(r_dr3_200m, r_dr3_no200m, ra_center, dec_center, search_radius, bright
     r_dr3_200m : astropy Table
         Objects in both the DR3 query and the 200M sample.
     r_dr3_no200m : astropy Table
-        Objects in the DR3 query no present in the 200M sample.
+        Objects in the DR3 query not present in the 200M sample.
     ra_center : float
         Right ascension (decimal degree) corresponding to the center
         of the field of view.
