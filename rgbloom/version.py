@@ -6,4 +6,4 @@
 # License-Filename: LICENSE.txt
 #
 
-version = '1.9'
+version = '2.0'

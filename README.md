@@ -85,14 +85,14 @@ are stored):
         Welcome to rgbloom version 1.9
         ==============================
 
-Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/reference_healpix8.csv' to file '/Users/cardiel/Library/Caches/pooch/635cd722cf61b23bd8eee20635e4d580-reference_healpix8.csv'.
+Downloading data from 'https://guaix.fis.ucm.es/~ncl/rgbphot/gaiaDR3/reference_healpix8.csv' to file '/Users/cardiel/Library/Caches/pooch/635cd722cf61b23bd8eee20635e4d580-reference_healpix8.csv'.
 <STEP1> Starting cone search in Gaia DR3... (please wait)
   INFO: Query finished. [astroquery.utils.tap.core]
         --> 310 objects found
         --> 23 objects classified as VARIABLE
 <STEP2> Estimating RGB magnitudes in DR3 query using C21 polynomials OK!
 <STEP3> Retrieving objects from the 200M sample in the enclosing HEALPIx level-8 tables
-Downloading data from 'http://nartex.fis.ucm.es/~ncl/rgbphot/gaiaDR3/RGBsynthetic_NOVARIABLES/sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_final.csv.gz' to file '/Users/cardiel/Library/Caches/pooch/2d94d5acfcb380d6dff1eaa207caa086-sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_final.csv.gz'.
+Downloading data from 'https://guaix.fis.ucm.es/~ncl/rgbphot/gaiaDR3/RGBsynthetic_NOVARIABLES/sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_final.csv.gz' to file '/Users/cardiel/Library/Caches/pooch/2d94d5acfcb380d6dff1eaa207caa086-sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_final.csv.gz'.
         * Required file: /Users/cardiel/Library/Caches/pooch/2d94d5acfcb380d6dff1eaa207caa086-sortida_XpContinuousMeanSpectrum_006602-007952_RGB_NOVARIABLES_final.csv.gz
           md5:f9cf7ed0f84eecda13ef6a408d291b96
         --> Number of objects: 100553
@@ -174,9 +174,9 @@ The `rgbloom` script executes the following steps:
 - **Step 6**: generation of a finding chart plot (in PDF format): `rgbloom.pdf`. 
   The execution of the previous example generates a cone search around the
   [Pleiades](https://en.wikipedia.org/wiki/Pleiades) star cluster: ![Pleiades
-  plot](http://guaix.fis.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v8.png) In this
+  plot](https://guaix.fis.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v8.png) In this
   plot (see [PDF
-  file](http://guaix.fis.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v8.pdf)) the
+  file](https://guaix.fis.ucm.es/~ncl/rgbphot/gaiaDR3/pleiades_v8.pdf)) the
   object symbol size is scaled based on the Gaia G magnitude, and are color
   coded based on the *Gaia* G_BP - G_RP colour. Objects brighter than a
   predefined threshold are represented by larger star symbols. To aid in object
